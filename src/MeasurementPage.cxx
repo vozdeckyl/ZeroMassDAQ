@@ -1,10 +1,12 @@
 #include "MeasurementPage.hpp"
+#include "GlobalSettings.hpp"
 
 MeasurementPage::MeasurementPage(int noOfChannels) :
     m_channelLabels(noOfChannels),
     m_readings(noOfChannels),
-    normal_dist(100, 10)
+    m_inputDevice(GlobalSettings::inputDevice)
 {
+    //m_inputDevice = GlobalSettings::inputDevice;
     m_label.set_markup("<span font=\"25\">Measurements</span>");
     m_label.set_margin_bottom(20);
     m_mainLayoutGrid.insert_column(0);
@@ -65,9 +67,9 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
 
 bool MeasurementPage::updateReadings()
 {
-    for (auto& reading : m_readings)
+    for (int i = 0; i < m_inputDevice->numberOfChannels(); i++)
     {
-	reading.set_markup("<span font=\"15\"><b>"+std::to_string(normal_dist(rd))+"</b></span>");
+        m_readings[i].set_markup("<span font=\"15\"><b>"+std::to_string(m_inputDevice->readChannel(i))+"</b></span>");
     }
 
     return true;

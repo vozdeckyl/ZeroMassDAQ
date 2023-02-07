@@ -1,9 +1,11 @@
 #ifndef MEASUREMENTPAGE_H
 #define MEASUREMENTPAGE_H
 
+#include <memory>
 #include <vector>
-#include <random>
 #include <gtkmm.h>
+
+#include "MockDevice.hpp"
 
 class MeasurementPage : public Gtk::Box {
 public:
@@ -23,9 +25,7 @@ private:
 
     sigc::connection m_conn;
 
-    std::random_device rd;
-    std::normal_distribution<double> normal_dist;
-    
+    std::shared_ptr<IInputDevice> m_inputDevice;
 };
 
 #endif
