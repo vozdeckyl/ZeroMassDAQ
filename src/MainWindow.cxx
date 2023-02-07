@@ -1,4 +1,5 @@
 #include "MainWindow.hpp"
+#include "MeasurementPage.hpp"
 
 MainWindow::MainWindow()
 {
@@ -6,7 +7,7 @@ MainWindow::MainWindow()
     set_default_size(800,480);
     
     std::vector<std::pair<std::string,std::shared_ptr<Gtk::Widget>>>  slides = {
-	{"A", std::shared_ptr<Gtk::Label>(new Gtk::Label("Page A"))},
+	{"A", std::shared_ptr<MeasurementPage>(new MeasurementPage(10))},
 	{"B", std::shared_ptr<Gtk::Label>(new Gtk::Label("Page B"))},
 	{"C", std::shared_ptr<Gtk::Label>(new Gtk::Label("Page C"))}
     };
@@ -57,6 +58,7 @@ void MainWindow::make_slides(std::vector<std::pair<std::string,std::shared_ptr<G
     for (auto & label : m_labels)
     {
 	m_mainGrid.attach(*label, 1, 0);
+	label->set_margin_left(50);
     }
     
     
