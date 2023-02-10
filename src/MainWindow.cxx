@@ -1,14 +1,15 @@
 #include "MainWindow.hpp"
+#include "MeasurementPage.hpp"
 
 MainWindow::MainWindow()
 {
     set_title("Zero Mass DAQ");
     set_default_size(800,480);
     
-    std::vector<std::pair<std::string,std::shared_ptr<Gtk::Widget>>>  slides = {
-	{"A", std::shared_ptr<Gtk::Label>(new Gtk::Label("Page A"))},
-	{"B", std::shared_ptr<Gtk::Label>(new Gtk::Label("Page B"))},
-	{"C", std::shared_ptr<Gtk::Label>(new Gtk::Label("Page C"))}
+    std::vector<std::pair<std::shared_ptr<Gtk::Widget>,std::shared_ptr<Gtk::Widget>>>  slides = {
+	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/measurement.png")), std::shared_ptr<MeasurementPage>(new MeasurementPage(16))},
+	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/settings.png")), std::shared_ptr<Gtk::Label>(new Gtk::Label("Page B"))},
+	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/inputDevice.png")), std::shared_ptr<Gtk::Label>(new Gtk::Label("Page C"))}
     };
         
     make_slides(slides, 100, 10);
@@ -24,16 +25,19 @@ void MainWindow::showSlide(int i)
     m_labels[i]->show();
 }
     
-void MainWindow::make_slides(std::vector<std::pair<std::string,std::shared_ptr<Gtk::Widget>>> slides, int buttonSize, int buttonMargins)
+void MainWindow::make_slides(std::vector<std::pair<std::shared_ptr<Gtk::Widget>,std::shared_ptr<Gtk::Widget>>> slides, int buttonSize, int buttonMargins)
 {    
     m_mainGrid.insert_column(0);
     m_mainGrid.attach(m_sideGrid, 0, 0);
     add(m_mainGrid);
     
     std::reverse(slides.begin(),slides.end());
-    for(const auto & slide : slides)
+    for(auto& slide : slides)
     {
-	m_buttons.push_back(Gtk::Button(slide.first));
+	m_buttons.push_back(Gtk::Button());
+	m_buttonIcons.push_back(slide.first);
+	m_buttons.back().set_image(*slide.first);
+	slide.first->show();
 	m_sideGrid.insert_row(0);
 	m_sideGrid.attach(m_buttons.back(), 0, 0);
     }
@@ -57,6 +61,7 @@ void MainWindow::make_slides(std::vector<std::pair<std::string,std::shared_ptr<G
     for (auto & label : m_labels)
     {
 	m_mainGrid.attach(*label, 1, 0);
+	label->set_margin_left(50);
     }
     
     

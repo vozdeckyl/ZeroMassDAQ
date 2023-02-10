@@ -1,0 +1,95 @@
+#include "MeasurementPage.hpp"
+#include "GlobalSettings.hpp"
+
+MeasurementPage::MeasurementPage(int noOfChannels) :
+    m_channelLabels(noOfChannels),
+    m_readings(noOfChannels),
+    m_inputDevice(GlobalSettings::inputDevice)
+{
+    //m_inputDevice = GlobalSettings::inputDevice;
+    m_label.set_markup("<span font=\"25\">Measurements</span>");
+    m_label.set_margin_bottom(20);
+    m_mainLayoutGrid.insert_column(0);
+    m_mainLayoutGrid.insert_row(0);
+    m_mainLayoutGrid.insert_row(0);
+
+    m_mainLayoutGrid.attach(m_label,0,0);
+    m_mainLayoutGrid.attach(m_readingsGrid,0,1);
+    
+    add(m_mainLayoutGrid);
+    
+    m_readingsGrid.insert_column(0);
+    m_readingsGrid.insert_column(0);
+
+    for(int i = 0; i < noOfChannels; i++)
+    {
+        m_readingsGrid.insert_row(0);
+    }
+
+    int channelLabelMargins{10};
+
+    int index{0};
+    for (auto& label : m_channelLabels)
+    {
+	label.set_text("Channel " + std::to_string(index));
+        m_readingsGrid.attach(label,0,index++);
+	label.set_margin_left(channelLabelMargins);
+	label.set_margin_right(channelLabelMargins);
+        //label.set_margin_top(channelLabelMargins);
+        //label.set_margin_bottom(channelLabelMargins);
+    }
+
+    index = 0;
+    for (auto& reading : m_readings)
+    {
+	reading.set_markup("<span font=\"15\"><b>N/A</b></span>");
+        m_readingsGrid.attach(reading,1,index++);
+	reading.set_margin_left(channelLabelMargins);
+        reading.set_margin_right(channelLabelMargins);
+        //reading.set_margin_top(channelLabelMargins);
+        //reading.set_margin_bottom(channelLabelMargins);
+    }
+
+
+    m_label.show();
+    m_mainLayoutGrid.show();
+    m_readingsGrid.show();
+
+    // start taking readings when measurements page is visible
+    signal_show().connect(sigc::mem_fun(*this, &MeasurementPage::startMeasurement));
+
+    // stop updating measurement when this page is hidden
+    signal_hide().connect(sigc::mem_fun(*this, &MeasurementPage::stopMeasurement));
+}
+
+
+bool MeasurementPage::updateReadings()
+{
+    for (int i = 0; i < m_inputDevice->numberOfChannels(); i++)
+    {
+        m_readings[i].set_markup("<span font=\"15\"><b>"+std::to_string(m_inputDevice->readChannel(i))+"</b></span>");
+    }
+
+    return true;
+}
+
+void MeasurementPage::startMeasurement()
+{
+    for(int i=0;i<m_inputDevice->numberOfChannels();i++)
+    {
+	m_readings[i].show();
+	m_channelLabels[i].show();
+    }
+    updateReadings();
+    m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),1000);
+}
+
+void MeasurementPage::stopMeasurement()
+{
+    for(int i=0;i<m_inputDevice->numberOfChannels();i++)
+    {
+	m_readings[i].hide();
+	m_channelLabels[i].hide();
+    }
+    m_conn.disconnect();
+}
