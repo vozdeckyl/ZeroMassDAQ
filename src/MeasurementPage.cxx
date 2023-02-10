@@ -37,7 +37,6 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
 	label.set_margin_right(channelLabelMargins);
         //label.set_margin_top(channelLabelMargins);
         //label.set_margin_bottom(channelLabelMargins);
-	label.show();
     }
 
     index = 0;
@@ -49,7 +48,6 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
         reading.set_margin_right(channelLabelMargins);
         //reading.set_margin_top(channelLabelMargins);
         //reading.set_margin_bottom(channelLabelMargins);
-        reading.show();
     }
 
 
@@ -77,11 +75,21 @@ bool MeasurementPage::updateReadings()
 
 void MeasurementPage::startMeasurement()
 {
+    for(int i=0;i<m_inputDevice->numberOfChannels();i++)
+    {
+	m_readings[i].show();
+	m_channelLabels[i].show();
+    }
     updateReadings();
     m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),1000);
 }
 
 void MeasurementPage::stopMeasurement()
 {
+    for(int i=0;i<m_inputDevice->numberOfChannels();i++)
+    {
+	m_readings[i].hide();
+	m_channelLabels[i].hide();
+    }
     m_conn.disconnect();
 }
