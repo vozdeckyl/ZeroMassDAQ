@@ -4,6 +4,7 @@
 #include <glibmm/main.h>
 #include <pangomm/layout.h>
 #include <pangomm/fontdescription.h>
+
 #include "Dial.hpp"
 
 Dial::Dial()
@@ -38,7 +39,7 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
   cr->set_source_rgba(0.0, 0.0, 0.0, 1.0);
   cr->set_line_width(5);
   cr->translate(180, 190);
-
+  
   Pango::FontDescription font;
   font.set_family("Monospace");
   font.set_weight(Pango::WEIGHT_BOLD);
@@ -48,21 +49,40 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
       cr->move_to(130 * cos(M_PI * marks * 0.01),   -130 * sin(M_PI * marks * 0.01) );
       cr->line_to(140 * cos(M_PI * marks * 0.01),   -140 * sin(M_PI * marks * 0.01) );
 
-      auto layout = create_pango_layout("A");
+      
+      auto layout = create_pango_layout("X");
       layout->set_font_description(font);
-      cr->move_to(10+145 * cos(M_PI * marks * 0.01),   -10-145 * sin(M_PI * marks * 0.01));
+      int label_width, label_height;
+      layout->get_pixel_size(label_width, label_height);
+
+      int horizontal_shift;
+      if(marks * 0.01 < 0.5)
+      {
+	  horizontal_shift = 0;
+      }
+      else if(marks * 0.01 == 0.5)
+      {
+	  horizontal_shift = -label_width/2;
+      }
+      else
+      {
+	  horizontal_shift = -label_width;
+      }
+      
+      cr->move_to(horizontal_shift + 150  * cos(M_PI * marks * 0.01), -10 - 150* sin(M_PI * marks * 0.01));
+      
       layout->show_in_cairo_context(cr);
+      
   }
   cr->stroke();
 
   
   auto layout = create_pango_layout("COUNTS PER SECOND");
   layout->set_font_description(font);
-  //layout->set_alignment(Pango::Alignment::CENTER);
-  //int text_width = 10;
-  //int text_height = 10;
-  //layout->get_pixel_size(text_width, text_height);
-  cr->move_to(-70, -50);
+  int text_width;
+  int text_height;
+  layout->get_pixel_size(text_width, text_height);
+  cr->move_to(-text_width/2, -50);
   layout->show_in_cairo_context(cr);
   
   
