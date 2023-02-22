@@ -71,6 +71,8 @@ bool MeasurementPage::updateReadings()
         m_readings[i].set_markup("<span font=\"12\"><b>"+std::to_string(m_inputDevice->readChannel(i))+"</b></span>");
     }
 
+    m_dial.setReading(m_inputDevice->readChannel(0));
+
     return true;
 }
 

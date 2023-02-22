@@ -1,18 +1,19 @@
 #include <ctime>
 #include <cmath>
+#include <string>
 #include <cairomm/context.h>
 #include <glibmm/main.h>
 #include <pangomm/layout.h>
 #include <pangomm/fontdescription.h>
+
 
 #include "Dial.hpp"
 
 Dial::Dial()
     : m_radius(0.42), m_line_width(0.05)
 {
-    //set_size_request(400,200);
     set_size_request(360,200);
-    //Glib::signal_timeout().connect( sigc::mem_fun(*this, &Dial::on_timeout), 1000 );
+    Glib::signal_timeout().connect( sigc::mem_fun(*this, &Dial::on_timeout), 100);
 }
 
 Dial::~Dial()
@@ -50,7 +51,7 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
       cr->line_to(140 * cos(M_PI * marks * 0.01),   -140 * sin(M_PI * marks * 0.01) );
 
       
-      auto layout = create_pango_layout("X");
+      auto layout = create_pango_layout(std::to_string(static_cast<int>(5*(100.0-marks))));
       layout->set_font_description(font);
       int label_width, label_height;
       layout->get_pixel_size(label_width, label_height);
@@ -91,11 +92,8 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
   cr->set_line_width(8);
 
 
-  int value = 30;
-
-  
   cr->move_to(0.0,0.0);
-  cr->line_to(-130 * cos(M_PI *value * 0.01),  -130 * sin(M_PI *value * 0.01) );
+  cr->line_to(-130 * cos(M_PI * m_reading * 0.01/5),  -130 * sin(M_PI * m_reading * 0.01/5) );
   cr->stroke();
 
 
@@ -112,7 +110,7 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
 bool Dial::on_timeout()
 {
-    // force our program to redraw the entire clock.
+    // force our program to redraw the entire dial
     auto win = get_window();
     if (win)
     {
@@ -123,3 +121,7 @@ bool Dial::on_timeout()
     return true;
 }
 
+void Dial::setReading(double value)
+{
+    m_reading = value;
+}
