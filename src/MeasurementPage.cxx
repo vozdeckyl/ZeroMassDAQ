@@ -66,12 +66,22 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
 
 bool MeasurementPage::updateReadings()
 {
-    for (int i = 0; i < m_inputDevice->numberOfChannels(); i++)
+	int numOfChannels = m_inputDevice->numberOfChannels();
+
+	double readings[numOfChannels];
+
+	for (int i = 0; i < numOfChannels; i++)
     {
-        m_readings[i].set_markup("<span font=\"12\"><b>"+std::to_string(m_inputDevice->readChannel(i))+"</b></span>");
+		readings[i] = m_inputDevice->readChannel(i);
+	}
+	
+	
+    for (int i = 0; i < numOfChannels; i++)
+    {
+        m_readings[i].set_markup("<span font=\"12\"><b>"+std::to_string(readings[i])+"</b></span>");
     }
 
-    m_dial.setReading(m_inputDevice->readChannel(0));
+    m_dial.setReading(readings[0]);
 
     return true;
 }
