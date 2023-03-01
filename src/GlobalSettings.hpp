@@ -8,6 +8,7 @@
 class GlobalSettings {
 public:
     static std::shared_ptr<IInputDevice> inputDevice;
+	static int samplingInterval_ms;
 };
 
 #endif
