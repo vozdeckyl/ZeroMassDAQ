@@ -16,7 +16,7 @@ private:
     Gtk::Grid m_mainLayoutGrid;
 
 	Gtk::Label m_samplingIntervalLabel;
-	Glib::RefPtr<Gtk::Adjustment> m_adjustment;
+	Glib::RefPtr<Gtk::Adjustment> m_samplingIntervalAdjustment;
 	Gtk::Scale m_scale;
 };
 
