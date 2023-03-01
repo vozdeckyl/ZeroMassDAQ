@@ -81,7 +81,7 @@ void MeasurementPage::startMeasurement()
 	m_channelLabels[i].show();
     }
     updateReadings();
-    m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),1000);
+    m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),GlobalSettings::samplingInterval_ms);
 }
 
 void MeasurementPage::stopMeasurement()

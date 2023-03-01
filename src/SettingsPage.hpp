@@ -6,7 +6,11 @@
 class SettingsPage : public Gtk::Box {
 public:
     SettingsPage();
-	
+
+private:
+	void updateSettings();
+	void loadSettings();
+		
 private:
     Gtk::Label m_label;
     Gtk::Grid m_mainLayoutGrid;
