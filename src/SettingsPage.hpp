@@ -17,7 +17,7 @@ private:
 
 	Gtk::Label m_samplingIntervalLabel;
 	Glib::RefPtr<Gtk::Adjustment> m_samplingIntervalAdjustment;
-	Gtk::Scale m_scale;
+	Gtk::Scale m_samplingIntervalScale;
 };
 
 #endif

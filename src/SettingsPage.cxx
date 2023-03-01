@@ -12,9 +12,9 @@ SettingsPage::SettingsPage() :
 	
     m_samplingIntervalAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &SettingsPage::updateSettings));
 
-	m_scale.set_adjustment(m_samplingIntervalAdjustment);
-	m_scale.set_size_request(600,-1);
-	m_scale.set_digits(0);
+	m_samplingIntervalScale.set_adjustment(m_samplingIntervalAdjustment);
+	m_samplingIntervalScale.set_size_request(600,-1);
+	m_samplingIntervalScale.set_digits(0);
 	
 	m_mainLayoutGrid.insert_column(0);
     m_mainLayoutGrid.insert_row(0);
@@ -22,14 +22,14 @@ SettingsPage::SettingsPage() :
 	m_mainLayoutGrid.insert_row(0);
 	
     m_mainLayoutGrid.attach(m_label,0,0);
-	m_mainLayoutGrid.attach(m_scale,0,2);
+	m_mainLayoutGrid.attach(m_samplingIntervalScale,0,2);
 	m_mainLayoutGrid.attach(m_samplingIntervalLabel,0,1);
 	
     add(m_mainLayoutGrid);
 	
 	m_label.show();
 	m_mainLayoutGrid.show();
-	m_scale.show();
+	m_samplingIntervalScale.show();
 	m_samplingIntervalLabel.show();
 
 	signal_show().connect(sigc::mem_fun(*this, &SettingsPage::loadSettings));
