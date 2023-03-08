@@ -1,37 +1,37 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
-#include "16ChannelUartDevice.hpp"
+#include "SixteenChannelUartDevice.hpp"
 
 #include <iostream>
 
-16ChannelUartDevice::16ChannelUartDevice()
+SixteenChannelUartDevice::SixteenChannelUartDevice()
   : m_deviceFile("/dev/ttyS0"),
     m_port(m_context, m_deviceFile)
 {    
 }
 
-int 16ChannelUartDevice::numberOfChannels()
+int SixteenChannelUartDevice::numberOfChannels()
 {
     return 16;
 }
 
-std::string 16ChannelUartDevice::deviceName()
+std::string SixteenChannelUartDevice::deviceName()
 {
     return "16 Channel UART";
 }
 
-std::string 16ChannelUartDevice::interfaceDescription()
+std::string SixteenChannelUartDevice::interfaceDescription()
 {
     return "UART";
 }
 
-std::string 16ChannelUartDevice::deviceDescription()
+std::string SixteenChannelUartDevice::deviceDescription()
 {
     return "Raspberry Pi Pico counting the number of pulses per second using the digital IO pins.";
 }
 
-bool 16ChannelUartDevice::connect(std::string& err)
+bool SixteenChannelUartDevice::connect(std::string& err)
 {
   if (access(m_deviceFile.c_str(), F_OK) == -1)
   {
@@ -54,7 +54,7 @@ bool 16ChannelUartDevice::connect(std::string& err)
   return true;
 }
 
-double 16ChannelUartDevice::readChannel(int channel)
+double SixteenChannelUartDevice::readChannel(int channel)
 {
     if(channel < 0 || channel > 16)
     {
@@ -80,6 +80,6 @@ double 16ChannelUartDevice::readChannel(int channel)
     }
 }
 
-void 16ChannelUartDevice::disconnect()
+void SixteenChannelUartDevice::disconnect()
 {
 }

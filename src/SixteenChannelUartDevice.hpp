@@ -1,14 +1,14 @@
-#ifndef 16CHANNELUARTDEVICE_H
-#define 16CHANNELUARTDEVICE_H
+#ifndef SIXTEENCHANNELUARTDEVICE_H
+#define SIXTEENCHANNELUARTDEVICE_H
 
 #include <string>
 #include <boost/asio.hpp>
 
 #include "IInputDevice.hpp"
 
-class 16ChannelUartDevice : public IInputDevice {
+class SixteenChannelUartDevice : public IInputDevice {
 public:
-    16ChannelUartDevice();
+    SixteenChannelUartDevice();
 	
     int numberOfChannels() override;
     std::string deviceName() override;
