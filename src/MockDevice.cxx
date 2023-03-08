@@ -8,7 +8,7 @@ MockDevice::MockDevice()
 
 int MockDevice::numberOfChannels()
 {
-    return 10;
+    return 32;
 }
 
 std::string MockDevice::deviceName()
@@ -33,7 +33,7 @@ bool MockDevice::connect(std::string& err)
 
 double MockDevice::readChannel(int channel)
 {
-    if(channel < 0 || channel > 9)
+    if(channel < 0 || channel > 31)
     {
 	return 0;
     }
