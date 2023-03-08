@@ -96,10 +96,16 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
   cr->set_source_rgba(1.0, 0, 0, 1.0);
   cr->set_line_width(8);
-
-
+  
   cr->move_to(0.0,0.0);
-  cr->line_to(-130 * cos(M_PI * m_reading / 100000),  -130 * sin(M_PI * m_reading / 100000) );
+  if(m_reading > 100000)
+  {
+	  cr->line_to(-130 * cos(M_PI * 1.01),  -130 * sin(M_PI * 1.01) );
+  }
+  else
+  {
+	  cr->line_to(-130 * cos(M_PI * m_reading / 100000),  -130 * sin(M_PI * m_reading / 100000) );
+  }
   cr->stroke();
 
 
