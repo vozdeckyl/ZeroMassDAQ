@@ -6,6 +6,7 @@
 #include <gtkmm.h>
 
 #include "MockDevice.hpp"
+#include "Dial.hpp"
 
 class MeasurementPage : public Gtk::Box {
 public:
@@ -17,6 +18,7 @@ private:
     void stopMeasurement();
     
 private:
+    Dial m_dial;
     Gtk::Label m_label;
     Gtk::Grid m_mainLayoutGrid;
     Gtk::Grid m_readingsGrid;

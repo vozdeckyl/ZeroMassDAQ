@@ -12,10 +12,10 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     m_label.set_margin_bottom(20);
     m_mainLayoutGrid.insert_column(0);
     m_mainLayoutGrid.insert_row(0);
-    m_mainLayoutGrid.insert_row(0);
 
     m_mainLayoutGrid.attach(m_label,0,0);
     m_mainLayoutGrid.attach(m_readingsGrid,0,1);
+    m_mainLayoutGrid.attach(m_dial,1,1);
     
     add(m_mainLayoutGrid);
     
@@ -38,25 +38,24 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
 	label.set_margin_right(channelLabelMargins);
         //label.set_margin_top(channelLabelMargins);
         //label.set_margin_bottom(channelLabelMargins);
-	label.show();
     }
 
     index = 0;
     for (auto& reading : m_readings)
     {
-	reading.set_markup("<span font=\"15\"><b>N/A</b></span>");
+	reading.set_markup("<span font=\"12\"><b>N/A</b></span>");
         m_readingsGrid.attach(reading,1,index++);
 	reading.set_margin_left(channelLabelMargins);
         reading.set_margin_right(channelLabelMargins);
         //reading.set_margin_top(channelLabelMargins);
         //reading.set_margin_bottom(channelLabelMargins);
-        reading.show();
     }
 
 
     m_label.show();
     m_mainLayoutGrid.show();
     m_readingsGrid.show();
+    m_dial.show();
 
     // start taking readings when measurements page is visible
     signal_show().connect(sigc::mem_fun(*this, &MeasurementPage::startMeasurement));
@@ -68,11 +67,35 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
 
 bool MeasurementPage::updateReadings()
 {
-    for (int i = 0; i < m_inputDevice->numberOfChannels(); i++)
-    {
-        m_readings[i].set_markup("<span font=\"15\"><b>"+std::to_string(m_inputDevice->readChannel(i))+"</b></span>");
-    }
+	int numberOfChannels = m_inputDevice->numberOfChannels();
+	double readings[numberOfChannels];
 
+	for (int i = 0; i < numberOfChannels; i++)
+	{
+		readings[i] = m_inputDevice->readChannel(i);
+	}
+
+	
+    for (int i = 0; i < numberOfChannels; i++)
+    {
+        m_readings[i].set_markup("<span font=\"12\"><b>"+std::to_string(readings[i])+"</b></span>");
+    }
+	
+	if(GlobalSettings::dialChannel == -1)
+	{
+		double sum{0.0};
+		for (int i = 0; i < numberOfChannels; i++)
+		{
+			sum += readings[i];
+		}
+		m_dial.setReading(sum);
+	}
+	else
+	{
+		m_dial.setReading(readings[GlobalSettings::dialChannel]);
+	}
+	
+	
     return true;
 }
 
@@ -81,11 +104,23 @@ void MeasurementPage::startMeasurement()
   std::string err;
   bool result = m_inputDevice->connect(err);
   if (!result) std::cout << err << std::endl;
+
+    for(int i=0;i<m_inputDevice->numberOfChannels();i++)
+    {
+	m_readings[i].show();
+	m_channelLabels[i].show();
+    }
+
     updateReadings();
-    m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),1000);
+    m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),GlobalSettings::samplingInterval_ms);
 }
 
 void MeasurementPage::stopMeasurement()
 {
+    for(int i=0;i<m_inputDevice->numberOfChannels();i++)
+    {
+	m_readings[i].hide();
+	m_channelLabels[i].hide();
+    }
     m_conn.disconnect();
 }
