@@ -91,7 +91,7 @@ bool MeasurementPage::updateReadings()
 	
     for (int i = 0; i < numberOfChannels; i++)
     {
-        m_readings[i].set_markup("<span font=\"12\"><b>"+std::to_string(readings[i])+"</b></span>");
+        m_readings[i].set_markup("<span font=\"12\"><b>"+std::to_string(static_cast<int>(readings[i]))+"</b></span>");
     }
 	
 	if(GlobalSettings::dialChannel == -1)
