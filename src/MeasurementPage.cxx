@@ -14,8 +14,13 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     m_mainLayoutGrid.insert_row(0);
 
     m_mainLayoutGrid.attach(m_label,0,0);
-    m_mainLayoutGrid.attach(m_readingsGrid,0,1);
+    m_mainLayoutGrid.attach(m_readingsWindow,0,1);
     m_mainLayoutGrid.attach(m_dial,1,1);
+
+	m_readingsWindow.add(m_readingsGrid);
+	m_readingsWindow.set_size_request(-1,400);
+	m_readingsWindow.set_policy(Gtk::PolicyType::POLICY_NEVER, Gtk::PolicyType::POLICY_ALWAYS);
+	m_readingsWindow.set_margin_right(20);
     
     add(m_mainLayoutGrid);
     
@@ -56,6 +61,7 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     m_mainLayoutGrid.show();
     m_readingsGrid.show();
     m_dial.show();
+	m_readingsWindow.show();
 
     // start taking readings when measurements page is visible
     signal_show().connect(sigc::mem_fun(*this, &MeasurementPage::startMeasurement));
