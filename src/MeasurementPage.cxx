@@ -1,3 +1,4 @@
+#include <iostream>
 #include "MeasurementPage.hpp"
 #include "GlobalSettings.hpp"
 
@@ -100,11 +101,16 @@ bool MeasurementPage::updateReadings()
 
 void MeasurementPage::startMeasurement()
 {
+  std::string err;
+  bool result = m_inputDevice->connect(err);
+  if (!result) std::cout << err << std::endl;
+
     for(int i=0;i<m_inputDevice->numberOfChannels();i++)
     {
 	m_readings[i].show();
 	m_channelLabels[i].show();
     }
+
     updateReadings();
     m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),GlobalSettings::samplingInterval_ms);
 }
