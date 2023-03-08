@@ -51,7 +51,7 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
       cr->line_to(140 * cos(M_PI * marks * 0.01),   -140 * sin(M_PI * marks * 0.01) );
 
       
-      auto layout = create_pango_layout(std::to_string(static_cast<int>(5*(100.0-marks))));
+      auto layout = create_pango_layout(std::to_string(static_cast<int>((100.0-marks))));
       layout->set_font_description(font);
       int label_width, label_height;
       layout->get_pixel_size(label_width, label_height);
@@ -77,11 +77,17 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
   }
   cr->stroke();
 
+
+  auto layoutMultiple = create_pango_layout("x1000");
+  layoutMultiple->set_font_description(font);
+  int text_width;
+  int text_height;
+  layoutMultiple->get_pixel_size(text_width, text_height);
+  cr->move_to(-text_width/2, -70);
+  layoutMultiple->show_in_cairo_context(cr);
   
   auto layout = create_pango_layout("COUNTS PER SECOND");
   layout->set_font_description(font);
-  int text_width;
-  int text_height;
   layout->get_pixel_size(text_width, text_height);
   cr->move_to(-text_width/2, -50);
   layout->show_in_cairo_context(cr);
@@ -93,7 +99,7 @@ bool Dial::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
 
   cr->move_to(0.0,0.0);
-  cr->line_to(-130 * cos(M_PI * m_reading * 0.01/5),  -130 * sin(M_PI * m_reading * 0.01/5) );
+  cr->line_to(-130 * cos(M_PI * m_reading / 100000),  -130 * sin(M_PI * m_reading / 100000) );
   cr->stroke();
 
 
