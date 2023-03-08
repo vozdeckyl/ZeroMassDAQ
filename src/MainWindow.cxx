@@ -1,5 +1,6 @@
 #include "MainWindow.hpp"
 #include "MeasurementPage.hpp"
+#include "SettingsPage.hpp"
 
 MainWindow::MainWindow()
 {
@@ -8,7 +9,7 @@ MainWindow::MainWindow()
     
     std::vector<std::pair<std::shared_ptr<Gtk::Widget>,std::shared_ptr<Gtk::Widget>>>  slides = {
 	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/measurement.png")), std::shared_ptr<MeasurementPage>(new MeasurementPage(16))},
-	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/settings.png")), std::shared_ptr<Gtk::Label>(new Gtk::Label("Page B"))},
+	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/settings.png")), std::shared_ptr<SettingsPage>(new SettingsPage())},
 	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/inputDevice.png")), std::shared_ptr<Gtk::Label>(new Gtk::Label("Page C"))}
     };
         

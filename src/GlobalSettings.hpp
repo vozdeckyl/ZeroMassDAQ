@@ -8,6 +8,8 @@
 class GlobalSettings {
 public:
     static std::shared_ptr<IInputDevice> inputDevice;
+	static int samplingInterval_ms;
+	static int dialChannel;
 };
 
 #endif
