@@ -1,3 +1,4 @@
+#include <iostream>
 #include "MeasurementPage.hpp"
 #include "GlobalSettings.hpp"
 
@@ -77,6 +78,9 @@ bool MeasurementPage::updateReadings()
 
 void MeasurementPage::startMeasurement()
 {
+  std::string err;
+  bool result = m_inputDevice->connect(err);
+  if (!result) std::cout << err << std::endl;
     updateReadings();
     m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),1000);
 }

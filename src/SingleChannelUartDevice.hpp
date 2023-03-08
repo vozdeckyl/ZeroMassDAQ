@@ -1,5 +1,5 @@
-#ifndef MOCKDEVICE_H
-#define MOCKDEVICE_H
+#ifndef SINGLECHANNELUARTDEVICE_H
+#define SINGLECHANNELUARTDEVICE_H
 
 #include <string>
 #include <boost/asio.hpp>

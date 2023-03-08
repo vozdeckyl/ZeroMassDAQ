@@ -3,6 +3,7 @@
 #include <vector>
 #include "SingleChannelUartDevice.hpp"
 
+#include <iostream>
 
 SingleChannelUartDevice::SingleChannelUartDevice()
   : m_deviceFile("/dev/ttyS0"),
@@ -61,9 +62,9 @@ double SingleChannelUartDevice::readChannel(int channel)
     }
     else
     {
+	boost::asio::write(m_port, boost::asio::buffer("\r"));
 	std::string inputBuffer;
-        boost::asio::read_until(m_port, boost::asio::dynamic_buffer(inputBuffer), '\n');
-	
+	boost::asio::read_until(m_port, boost::asio::dynamic_buffer(inputBuffer), '\n');
 	
 	double countsPerSecond;
 	
@@ -73,7 +74,7 @@ double SingleChannelUartDevice::readChannel(int channel)
 	while (std::getline(ss, item, ' ')) {
 	  elems.push_back(item);
 	}
-	countsPerSecond = std::atof(elems.back().c_str());
+	countsPerSecond = std::atof(elems[2].c_str());
 	return countsPerSecond;
     }
 }
