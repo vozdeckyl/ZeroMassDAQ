@@ -2,7 +2,7 @@
 #include "GlobalSettings.hpp"
 
 SettingsPage::SettingsPage() :
-    m_samplingIntervalAdjustment(Gtk::Adjustment::create(500, 500, 10000, 10, 10, 0))
+    m_samplingIntervalAdjustment(Gtk::Adjustment::create(GlobalSettings::samplingInterval_ms, 500, 10000, 10, 10, 0))
 {
     m_label.set_markup("<span font=\"25\">Settings</span>");
     m_label.set_margin_bottom(20);
