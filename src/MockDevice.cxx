@@ -2,7 +2,7 @@
 
 
 MockDevice::MockDevice()
-    : m_normal_dist(100, 50)
+    : m_normal_dist(25000, 10000)
 {    
 }
 
