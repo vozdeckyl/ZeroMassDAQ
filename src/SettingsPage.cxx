@@ -40,6 +40,8 @@ SettingsPage::SettingsPage() :
 	
 	m_refListStore = Gtk::ListStore::create(m_Columns);
 
+	m_dialChannelView.get_selection()->signal_changed().connect(sigc::mem_fun(*this, &SettingsPage::updateSettings));
+
 	Gtk::TreeModel::iterator iter = m_refListStore->append();
 	Gtk::TreeModel::Row row = *iter;
 	row[m_Columns.m_colNumber] = -1;
@@ -75,9 +77,15 @@ SettingsPage::SettingsPage() :
 void SettingsPage::loadSettings()
 {
     m_samplingIntervalAdjustment->set_value(GlobalSettings::samplingInterval_ms);
+
+	Gtk::TreeModel::Row row = m_refListStore->children()[GlobalSettings::dialChannel+1];
+    m_dialChannelView.get_selection()->select(row);
 }
 
 void SettingsPage::updateSettings()
 {
 	GlobalSettings::samplingInterval_ms = m_samplingIntervalAdjustment->get_value();
+	
+	Gtk::TreeModel::Row row = *((m_dialChannelView.get_selection())->get_selected());
+	GlobalSettings::dialChannel = row[m_Columns.m_colNumber];
 }

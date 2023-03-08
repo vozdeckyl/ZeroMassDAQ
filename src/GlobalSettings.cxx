@@ -4,3 +4,4 @@
 
 std::shared_ptr<IInputDevice> GlobalSettings::inputDevice = std::shared_ptr<IInputDevice>(new MockDevice);
 int GlobalSettings::samplingInterval_ms = 999;
+int GlobalSettings::dialChannel = 0;
