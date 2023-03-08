@@ -22,6 +22,7 @@ private:
     Gtk::Label m_label;
     Gtk::Grid m_mainLayoutGrid;
     Gtk::Grid m_readingsGrid;
+	Gtk::Grid m_dialGrid;
 	Gtk::ScrolledWindow m_readingsWindow;
     std::vector<Gtk::Label> m_channelLabels;
     std::vector<Gtk::Label> m_readings;

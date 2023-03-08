@@ -15,7 +15,13 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
 
     m_mainLayoutGrid.attach(m_label,0,0);
     m_mainLayoutGrid.attach(m_readingsWindow,0,1);
-    m_mainLayoutGrid.attach(m_dial,1,1);
+    m_mainLayoutGrid.attach(m_dialGrid,1,1);
+
+	m_dialGrid.insert_column(0);
+	m_dialGrid.insert_row(0);
+	m_dialGrid.insert_row(0);
+
+	m_dialGrid.attach(m_dial,0,1);
 
 	m_readingsWindow.add(m_readingsGrid);
 	m_readingsWindow.set_size_request(-1,400);
@@ -60,6 +66,7 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     m_label.show();
     m_mainLayoutGrid.show();
     m_readingsGrid.show();
+	m_dialGrid.show();
     m_dial.show();
 	m_readingsWindow.show();
 
