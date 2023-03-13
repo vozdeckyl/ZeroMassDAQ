@@ -10,6 +10,9 @@ public:
     DevicesPage();
 
 private:
+	void setDevice(int i);
+
+private:
     Gtk::Label m_label;
     Gtk::Grid m_mainLayoutGrid;
 	Gtk::Grid m_deviceTable;
