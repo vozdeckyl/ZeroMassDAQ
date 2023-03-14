@@ -78,7 +78,7 @@ double SingleChannelUartDevice::getChannelReading(int channel)
     }
     else
     {
-		m_reading;
+		return m_reading;
     }
 }
 
