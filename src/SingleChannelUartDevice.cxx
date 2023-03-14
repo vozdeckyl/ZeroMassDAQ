@@ -97,7 +97,7 @@ void SingleChannelUartDevice::readAllChannels()
 	while (std::getline(ss, item, ' ')) {
 	  elems.push_back(item);
 	}
-    m_reading = std::atof(elems[2].c_str());
+    m_reading = std::atof(elems[0].c_str());
 }
 
 double SingleChannelUartDevice::getChannelReading(int channel)
