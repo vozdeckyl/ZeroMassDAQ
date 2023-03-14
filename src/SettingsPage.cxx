@@ -37,29 +37,11 @@ SettingsPage::SettingsPage() :
 	m_ScrolledWindow.add(m_dialChannelView);
 	m_ScrolledWindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	m_ScrolledWindow.set_size_request(-1,200);
-	
-	m_refListStore = Gtk::ListStore::create(m_Columns);
+
 
 	m_dialChannelView.get_selection()->signal_changed().connect(sigc::mem_fun(*this, &SettingsPage::updateSettings));
-
-	Gtk::TreeModel::iterator iter = m_refListStore->append();
-	Gtk::TreeModel::Row row = *iter;
-	row[m_Columns.m_colNumber] = -1;
-	row[m_Columns.m_colText] = "Sum of all channels";
 	
-	int numberOfChannels = GlobalSettings::inputDevice->numberOfChannels();
-	for(int i=0; i<numberOfChannels; i++)
-	{
-		Gtk::TreeModel::iterator iter = m_refListStore->append();
-		Gtk::TreeModel::Row row = *iter;
-		row[m_Columns.m_colText] = std::to_string(i);
-		row[m_Columns.m_colNumber] = i;
-	}
-
-    m_dialChannelView.set_model(m_refListStore);
-
-    m_dialChannelView.append_column("Dial Channel", m_Columns.m_colText);
-	
+	m_dialChannelView.append_column("Dial Channel", m_Columns.m_colText);
 	
     add(m_mainLayoutGrid);
 	
@@ -76,10 +58,28 @@ SettingsPage::SettingsPage() :
 
 void SettingsPage::loadSettings()
 {
+    m_refListStore = Gtk::ListStore::create(m_Columns);
+    
+    Gtk::TreeModel::iterator iter = m_refListStore->append();
+    Gtk::TreeModel::Row row = *iter;
+    row[m_Columns.m_colNumber] = -1;
+    row[m_Columns.m_colText] = "Sum of all channels";
+    
+    int numberOfChannels = GlobalSettings::inputDevice->numberOfChannels();
+    for(int i=0; i<numberOfChannels; i++)
+    {
+        Gtk::TreeModel::iterator iter = m_refListStore->append();
+	Gtk::TreeModel::Row row = *iter;
+	row[m_Columns.m_colText] = std::to_string(i);
+	row[m_Columns.m_colNumber] = i;
+    }
+    
+    m_dialChannelView.set_model(m_refListStore);
+    
     m_samplingIntervalAdjustment->set_value(GlobalSettings::samplingInterval_ms);
-
-	Gtk::TreeModel::Row row = m_refListStore->children()[GlobalSettings::dialChannel+1];
-    m_dialChannelView.get_selection()->select(row);
+    
+    Gtk::TreeModel::Row selectedRow = m_refListStore->children()[GlobalSettings::dialChannel+1];
+    m_dialChannelView.get_selection()->select(selectedRow);
 }
 
 void SettingsPage::updateSettings()
