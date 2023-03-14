@@ -4,6 +4,7 @@
 #include "SingleChannelUartDevice.hpp"
 
 #include <iostream>
+#include <regex>
 
 SingleChannelUartDevice::SingleChannelUartDevice()
   : m_deviceFile("/dev/ttyS0"),
@@ -49,7 +50,31 @@ bool SingleChannelUartDevice::connect(std::string& err)
       err = "Error: " + std::string(e.what());
       return false;
   }
+
+  // request a reading and verify the format of the message
+  std::regex regex("[0-9]*\\.[0-9]*");
+
+  boost::asio::write(m_port, boost::asio::buffer("\r"));
+  std::string inputBuffer;
+  boost::asio::read_until(m_port, boost::asio::dynamic_buffer(inputBuffer), '\n');
   
+  std::stringstream ss(inputBuffer);
+  std::vector<std::string> elems;
+  std::string item;
+  while (std::getline(ss, item, ' ')) {
+      if(!std::regex_match(item,regex))
+      {
+          err = "Error: the data sent by the device is not in the expected format.";
+          return false;
+      }
+      elems.push_back(item);
+  }
+
+  if(elems.size()!=numberOfChannels())
+  {
+      err = "Error: the data sent by the device is not in the expected format.";
+      return false;
+  }
   
   return true;
 }
