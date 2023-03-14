@@ -7,7 +7,7 @@
 
 SingleChannelUartDevice::SingleChannelUartDevice()
   : m_deviceFile("/dev/ttyS0"),
-    m_port(m_context, m_deviceFile)
+    m_port(m_context)
 {    
 }
 
