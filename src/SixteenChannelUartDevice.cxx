@@ -4,8 +4,6 @@
 #include <regex>
 #include "SixteenChannelUartDevice.hpp"
 
-#include <iostream>
-
 SixteenChannelUartDevice::SixteenChannelUartDevice()
 	: m_deviceFile("/dev/ttyS0"),
 	  m_port(m_context)
@@ -72,7 +70,6 @@ bool SixteenChannelUartDevice::connect(std::string& err)
   {
       if(!std::regex_match(e,regex))
       {
-	  std::cout << "This does not pass the regex: " << item << std::endl;
 	  err = "Error: the data sent by the device is not in the expected format.";
 	  return false;
       }
