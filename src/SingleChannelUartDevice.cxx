@@ -1,10 +1,9 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
+#include <regex>
 #include "SingleChannelUartDevice.hpp"
 
-#include <iostream>
-#include <regex>
 
 SingleChannelUartDevice::SingleChannelUartDevice()
   : m_deviceFile("/dev/ttyS0"),
@@ -62,14 +61,20 @@ bool SingleChannelUartDevice::connect(std::string& err)
   std::vector<std::string> elems;
   std::string item;
   while (std::getline(ss, item, ' ')) {
-      if(!std::regex_match(item,regex))
-      {
-          err = "Error: the data sent by the device is not in the expected format.";
-          return false;
-      }
       elems.push_back(item);
   }
 
+  elems.pop_back();
+
+  for(auto & e : elems)
+  {
+     if(!std::regex_match(e,regex))
+     {
+         err = "Error: the data sent by the device is not in the expected format.";
+         return false;
+     }
+  }
+  
   if(elems.size()!=numberOfChannels())
   {
       err = "Error: the data sent by the device is not in the expected format.";
