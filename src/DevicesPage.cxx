@@ -50,13 +50,17 @@ DevicesPage::DevicesPage()
 void DevicesPage::setDevice(int i)
 {
 	GlobalSettings::inputDevice->disconnect();
-	GlobalSettings::inputDevice = GlobalSettings::inputDevices[i];
+	
 	std::string err;
-	GlobalSettings::inputDevice->connect(err);
+        GlobalSettings::inputDevices[i]->connect(err);
 	if(err.size()!=0)
 	{
-		Gtk::MessageDialog dialog("Error connecting device");
-		dialog.set_secondary_text(err + "\n\n Did you make sure the device is connected properly?");
-		dialog.run();
+	    Gtk::MessageDialog dialog("Error connecting device");
+	    dialog.set_secondary_text(err + "\n\n Did you make sure the device is connected properly?");
+	    dialog.run();
+	}
+	else
+	{
+	    GlobalSettings::inputDevice = GlobalSettings::inputDevices[i];
 	}
 }
