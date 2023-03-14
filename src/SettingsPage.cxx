@@ -69,17 +69,16 @@ void SettingsPage::loadSettings()
     for(int i=0; i<numberOfChannels; i++)
     {
         Gtk::TreeModel::iterator iter = m_refListStore->append();
-	Gtk::TreeModel::Row row = *iter;
-	row[m_Columns.m_colText] = std::to_string(i);
-	row[m_Columns.m_colNumber] = i;
+		Gtk::TreeModel::Row row = *iter;
+		row[m_Columns.m_colText] = std::to_string(i);
+		row[m_Columns.m_colNumber] = i;
     }
-    
+
+	Gtk::TreeModel::Row selectedRow = m_refListStore->children()[GlobalSettings::dialChannel+1];
     m_dialChannelView.set_model(m_refListStore);
-    
-    m_samplingIntervalAdjustment->set_value(GlobalSettings::samplingInterval_ms);
-    
-    Gtk::TreeModel::Row selectedRow = m_refListStore->children()[GlobalSettings::dialChannel+1];
     m_dialChannelView.get_selection()->select(selectedRow);
+	
+    m_samplingIntervalAdjustment->set_value(GlobalSettings::samplingInterval_ms);
 }
 
 void SettingsPage::updateSettings()
