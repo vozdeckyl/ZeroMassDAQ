@@ -83,9 +83,11 @@ bool MeasurementPage::updateReadings()
 	int numberOfChannels = m_inputDevice->numberOfChannels();
 	double readings[numberOfChannels];
 
+	m_inputDevice->readAllChannels();
+	
 	for (int i = 0; i < numberOfChannels; i++)
 	{
-		readings[i] = m_inputDevice->readChannel(i);
+		readings[i] = m_inputDevice->getChannelReading(i);
 	}
 
 	
