@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
+#include <regex>
 #include "SixteenChannelUartDevice.hpp"
 
 #include <iostream>
@@ -47,6 +48,39 @@ bool SixteenChannelUartDevice::connect(std::string& err)
   catch (std::exception & e)
   {
       err = "Error: " + std::string(e.what());
+      return false;
+  }
+
+  // request a reading and verify the format of the message
+  std::regex regex("[0-9]*\\.[0-9]*");
+  
+  boost::asio::write(m_port, boost::asio::buffer("\r"));
+  std::string inputBuffer;
+  boost::asio::read_until(m_port, boost::asio::dynamic_buffer(inputBuffer), '\n');
+  
+  std::stringstream ss(inputBuffer);
+  std::vector<std::string> elems;
+  std::string item;
+  while (std::getline(ss, item, ' '))
+  {
+      elems.push_back(item);
+  }
+
+  elems.pop_back();
+
+  for(auto & e : elems)
+  {
+      if(!std::regex_match(e,regex))
+      {
+	  std::cout << "This does not pass the regex: " << item << std::endl;
+	  err = "Error: the data sent by the device is not in the expected format.";
+	  return false;
+      }
+  }
+
+  if(elems.size()!=numberOfChannels())
+  {
+      err = "Error: the data sent by the device is not in the expected format.";
       return false;
   }
   
