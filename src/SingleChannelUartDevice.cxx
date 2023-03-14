@@ -54,19 +54,12 @@ bool SingleChannelUartDevice::connect(std::string& err)
   return true;
 }
 
-double SingleChannelUartDevice::readChannel(int channel)
+
+void SingleChannelUartDevice::readAllChannels()
 {
-    if(channel < 0 || channel > 1)
-    {
-	return 0;
-    }
-    else
-    {
 	boost::asio::write(m_port, boost::asio::buffer("\r"));
 	std::string inputBuffer;
 	boost::asio::read_until(m_port, boost::asio::dynamic_buffer(inputBuffer), '\n');
-	
-	double countsPerSecond;
 	
 	std::stringstream ss(inputBuffer);
 	std::vector<std::string> elems;
@@ -74,8 +67,18 @@ double SingleChannelUartDevice::readChannel(int channel)
 	while (std::getline(ss, item, ' ')) {
 	  elems.push_back(item);
 	}
-	countsPerSecond = std::atof(elems[2].c_str());
-	return countsPerSecond;
+    m_reading = std::atof(elems[2].c_str());
+}
+
+double SingleChannelUartDevice::getChannelReading(int channel)
+{
+	if(channel < 0 || channel > 1)
+    {
+		return 0;
+    }
+    else
+    {
+		m_reading;
     }
 }
 

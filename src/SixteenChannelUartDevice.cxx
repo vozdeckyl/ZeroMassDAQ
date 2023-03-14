@@ -54,29 +54,35 @@ bool SixteenChannelUartDevice::connect(std::string& err)
   return true;
 }
 
-double SixteenChannelUartDevice::readChannel(int channel)
+void SixteenChannelUartDevice::readAllChannels()
 {
-    if(channel < 0 || channel > 16)
+	boost::asio::write(m_port, boost::asio::buffer("\r"));
+	std::string inputBuffer;
+	boost::asio::read_until(m_port, boost::asio::dynamic_buffer(inputBuffer), '\n');
+	
+	std::stringstream ss(inputBuffer);
+	std::vector<std::string> elems;
+	std::string item;
+	while (std::getline(ss, item, ' '))
+	{
+		elems.push_back(item);
+	}
+
+	for(int i=0; i<numberOfChannels(); i++)
+	{
+		m_readings[i] = std::atof(elems[i].c_str());
+	}
+}
+
+double SixteenChannelUartDevice::getChannelReading(int channel)
+{
+	if(channel < 0 || channel > 16)
     {
 		return 0;
     }
     else
     {
-		boost::asio::write(m_port, boost::asio::buffer("\r"));
-		std::string inputBuffer;
-		boost::asio::read_until(m_port, boost::asio::dynamic_buffer(inputBuffer), '\n');
-		
-		double countsPerSecond;
-		
-		std::stringstream ss(inputBuffer);
-		std::vector<std::string> elems;
-		std::string item;
-		while (std::getline(ss, item, ' '))
-		{
-			elems.push_back(item);
-		}
-		countsPerSecond = std::atof(elems[channel].c_str());
-		return countsPerSecond;
+		return m_readings[channel];
     }
 }
 

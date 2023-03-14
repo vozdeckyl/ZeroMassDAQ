@@ -31,15 +31,23 @@ bool MockDevice::connect(std::string& err)
     return true;
 }
 
-double MockDevice::readChannel(int channel)
+void MockDevice::readAllChannels()
 {
-    if(channel < 0 || channel > 31)
+	for(int i=0; i<32; i++)
+	{
+		m_readings[i] = m_normal_dist(m_rd);
+	}
+}
+
+double MockDevice::getChannelReading(int channel)
+{
+	if(channel < 0 || channel > 31)
     {
-	return 0;
+		return 0;
     }
     else
     {
-	return m_normal_dist(m_rd);
+		return m_readings[channel];
     }
 }
 
