@@ -114,6 +114,7 @@ bool MeasurementPage::updateReadings()
 
 void MeasurementPage::startMeasurement()
 {
+  m_inputDevice = GlobalSettings::inputDevice;
   std::string err;
   bool result = m_inputDevice->connect(err);
   if (!result) std::cout << err << std::endl;
