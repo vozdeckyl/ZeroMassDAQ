@@ -29,6 +29,7 @@ DevicesPage::DevicesPage()
 		
 		m_radioButtons.push_back(std::shared_ptr<Gtk::RadioButton>(new Gtk::RadioButton));
 		m_radioButtons.back()->show();
+		m_radioButtons.back()->set_size_request(30,30);
 		m_radioButtons.back()->set_group(m_buttonGroup);
 		m_radioButtons.back()->signal_pressed().connect(std::bind(&DevicesPage::setDevice,this,index));
 		m_deviceTable.attach(*(m_radioButtons.back()),0,index);
