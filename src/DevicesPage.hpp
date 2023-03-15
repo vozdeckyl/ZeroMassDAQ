@@ -11,6 +11,7 @@ public:
 
 private:
     void setDevice(int i);
+	void showDeviceInfo(int deviceNumber);
 
 private:
     Gtk::Label m_label;
