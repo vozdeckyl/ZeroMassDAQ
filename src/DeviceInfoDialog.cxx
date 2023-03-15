@@ -9,7 +9,7 @@ DeviceInfoDialog::DeviceInfoDialog(std::shared_ptr<IInputDevice> device)
 	  m_numberOfChannels_value(std::to_string(device->numberOfChannels()), Gtk::Align::ALIGN_START)
 {
 	set_type_hint(Gdk::WindowTypeHint::WINDOW_TYPE_HINT_TOOLBAR); //WINDOW_TYPE_HINT_TOOLBAR
-	//set_size_request(100,100);
+	
 	set_icon_from_file("icons/info.png");
 	
 	m_mainGrid.insert_column(0);
@@ -42,4 +42,7 @@ DeviceInfoDialog::DeviceInfoDialog(std::shared_ptr<IInputDevice> device)
 	m_okButton.signal_clicked().connect(sigc::mem_fun(*this, &Gtk::Window::close));
 	get_action_area()->add(m_okButton);
 	m_okButton.show();
+	
+	show();
+	present();
 }
