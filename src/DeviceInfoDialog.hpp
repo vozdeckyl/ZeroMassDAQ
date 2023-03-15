@@ -15,6 +15,10 @@ private:
 	Gtk::Label m_deviceName_value;
 	Gtk::Label m_numberOfChannels;
 	Gtk::Label m_numberOfChannels_value;
+	Gtk::Label m_interfaceDescription;
+	Gtk::Label m_interfaceDescription_value;
+	Gtk::Label m_deviceDescription;
+	Gtk::Label m_deviceDescription_value;
 	Gtk::Button m_okButton;
 };
 
