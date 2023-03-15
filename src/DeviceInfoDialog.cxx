@@ -54,7 +54,9 @@ DeviceInfoDialog::DeviceInfoDialog(std::shared_ptr<IInputDevice> device)
 	m_interfaceDescription_value.show();
 	m_deviceDescription.show();
     m_deviceDescription_value.show();
-	
+
+	m_okButton.set_margin_right(10);
+	m_okButton.set_margin_bottom(10);
 	m_okButton.signal_clicked().connect(sigc::mem_fun(*this, &Gtk::Window::close));
 	get_action_area()->add(m_okButton);
 	m_okButton.show();
