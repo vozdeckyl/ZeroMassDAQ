@@ -8,6 +8,7 @@ MainWindow::MainWindow()
 {
     set_title("Zero Mass DAQ");
     set_default_size(800,480);
+    set_icon_from_file("icons/radioactive.png");
 
     std::vector<std::pair<std::shared_ptr<Gtk::Widget>,std::shared_ptr<Gtk::Widget>>>  slides = {
         {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/measurement.png")), std::shared_ptr<MeasurementPage>(new MeasurementPage(32))},
