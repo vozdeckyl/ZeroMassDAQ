@@ -80,5 +80,5 @@ void DevicesPage::setDevice(int i)
 void DevicesPage::showDeviceInfo(int deviceNumber)
 {
     DeviceInfoDialog d(GlobalSettings::inputDevices[deviceNumber]);
-	d.run();
+    d.run();
 }
