@@ -1,5 +1,6 @@
 #include "DevicesPage.hpp"
 #include "GlobalSettings.hpp"
+#include "DeviceInfoDialog.hpp"
 
 #include <functional>
 
@@ -11,6 +12,7 @@ DevicesPage::DevicesPage()
 	m_mainLayoutGrid.insert_row(0);
 	m_mainLayoutGrid.insert_row(0);
 	
+	m_deviceTable.insert_column(0);
 	m_deviceTable.insert_column(0);
 	m_deviceTable.insert_column(0);
 	
@@ -33,6 +35,16 @@ DevicesPage::DevicesPage()
 		m_radioButtons.back()->set_group(m_buttonGroup);
 		m_radioButtons.back()->signal_pressed().connect(std::bind(&DevicesPage::setDevice,this,index));
 		m_deviceTable.attach(*(m_radioButtons.back()),0,index);
+
+		m_infoButtons.push_back(std::shared_ptr<Gtk::Button>(new Gtk::Button));
+		m_infoButtons.back()->show();
+		m_infoIcons.push_back(Gtk::Image("icons/info.png"));
+		m_infoButtons.back()->set_image(m_infoIcons.back());
+		m_infoButtons.back()->set_size_request(30,30);
+		m_infoButtons.back()->set_margin_left(20);
+		m_infoButtons.back()->signal_pressed().connect(std::bind(&DevicesPage::showDeviceInfo,this,index));
+		m_deviceTable.attach(*(m_infoButtons.back()),2,index);
+		
 		index++;
 	}
 	
@@ -52,7 +64,7 @@ void DevicesPage::setDevice(int i)
 	GlobalSettings::inputDevice->disconnect();
 	
 	std::string err;
-        GlobalSettings::inputDevices[i]->connect(err);
+	GlobalSettings::inputDevices[i]->connect(err);
 	if(err.size()!=0)
 	{
 	    Gtk::MessageDialog dialog("Error connecting device");
@@ -63,4 +75,10 @@ void DevicesPage::setDevice(int i)
 	{
 	    GlobalSettings::inputDevice = GlobalSettings::inputDevices[i];
 	}
+}
+
+void DevicesPage::showDeviceInfo(int deviceNumber)
+{
+    DeviceInfoDialog d(GlobalSettings::inputDevices[deviceNumber]);
+    d.run();
 }
