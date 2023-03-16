@@ -29,7 +29,7 @@ void MainWindow::showSlide(int i)
 {
     for (auto & label : m_labels)
     {
-	label->hide();
+        label->hide();
     }
     m_labels[i]->show();
 }
@@ -43,40 +43,40 @@ void MainWindow::make_slides(std::vector<std::pair<std::shared_ptr<Gtk::Widget>,
     std::reverse(slides.begin(),slides.end());
     for(auto& slide : slides)
     {
-	m_buttons.push_back(Gtk::Button());
-	m_buttonIcons.push_back(slide.first);
-	m_buttons.back().set_image(*slide.first);
-	slide.first->show();
-	m_sideGrid.insert_row(0);
-	m_sideGrid.attach(m_buttons.back(), 0, 0);
+        m_buttons.push_back(Gtk::Button());
+        m_buttonIcons.push_back(slide.first);
+        m_buttons.back().set_image(*slide.first);
+        slide.first->show();
+        m_sideGrid.insert_row(0);
+        m_sideGrid.attach(m_buttons.back(), 0, 0);
     }
     
     for(auto & button : m_buttons)
     {
-	button.set_size_request(buttonSize,buttonSize);
-	button.set_margin_left(buttonMargins);
-	button.set_margin_right(buttonMargins);
-	button.set_margin_top(buttonMargins);
-	button.set_margin_bottom(buttonMargins);
-	button.show();
+        button.set_size_request(buttonSize,buttonSize);
+        button.set_margin_left(buttonMargins);
+        button.set_margin_right(buttonMargins);
+        button.set_margin_top(buttonMargins);
+        button.set_margin_bottom(buttonMargins);
+        button.show();
     }
     
     for(auto & slide : slides)
     {
-	m_labels.push_back(slide.second);
+        m_labels.push_back(slide.second);
     }
     
     
     for (auto & label : m_labels)
     {
-	m_mainGrid.attach(*label, 1, 0);
-	label->set_margin_left(50);
+        m_mainGrid.attach(*label, 1, 0);
+        label->set_margin_left(50);
     }
     
     
     for(int i =0; i<m_buttons.size(); i++)
     {
-	m_buttons[i].signal_clicked().connect(std::bind(&MainWindow::showSlide, this, i));
+        m_buttons[i].signal_clicked().connect(std::bind(&MainWindow::showSlide, this, i));
     }
     
     m_mainGrid.show();
