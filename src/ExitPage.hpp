@@ -4,14 +4,14 @@
 class ExitPage : public Gtk::Box
 {
 public:
-    ExitPage(std::shared_ptr<MainWindow> mainWindow)
+    ExitPage(MainWindow * mainWindow)
         : m_mainWindow(mainWindow)
     {
-        signal_show().connect([](){});
+        signal_show().connect(sigc::mem_fun(m_mainWindow, &Gtk::Window::close));
     }
 
 private:
-    std::shared_ptr<MainWindow> m_mainWindow;
+    MainWindow * m_mainWindow;
 };
 
 #endif

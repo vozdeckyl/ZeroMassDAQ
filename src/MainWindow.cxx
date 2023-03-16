@@ -2,19 +2,26 @@
 #include "MeasurementPage.hpp"
 #include "SettingsPage.hpp"
 #include "DevicesPage.hpp"
+#include "ExitPage.hpp"
 
 MainWindow::MainWindow()
 {
     set_title("Zero Mass DAQ");
     set_default_size(800,480);
-    
+
     std::vector<std::pair<std::shared_ptr<Gtk::Widget>,std::shared_ptr<Gtk::Widget>>>  slides = {
-	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/measurement.png")), std::shared_ptr<MeasurementPage>(new MeasurementPage(32))},
-	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/settings.png")), std::shared_ptr<SettingsPage>(new SettingsPage())},
-	{std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/inputDevice.png")), std::shared_ptr<DevicesPage>(new DevicesPage)}
+        {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/measurement.png")), std::shared_ptr<MeasurementPage>(new MeasurementPage(32))},
+        {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/settings.png")), std::shared_ptr<SettingsPage>(new SettingsPage())},
+        {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/inputDevice.png")), std::shared_ptr<DevicesPage>(new DevicesPage)},
+        {std::shared_ptr<Gtk::Label>(new Gtk::Label("Exit")), std::shared_ptr<ExitPage>(new ExitPage(this))}
     };
         
     make_slides(slides, 100, 10);
+}
+
+void MainWindow::quit()
+{
+    close();
 }
 
 
