@@ -6,6 +6,7 @@
 class MainWindow : public Gtk::Window {
 public:
     MainWindow();
+    void quit();
 
 private:
     void showSlide(int i);
