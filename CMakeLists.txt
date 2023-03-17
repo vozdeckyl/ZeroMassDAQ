@@ -26,3 +26,26 @@ target_link_libraries(zmdaq pthread ${GTKMM_LIBRARIES} ${Boost_LIBRARIES})
 add_custom_command(TARGET zmdaq PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/icons/png $<TARGET_FILE_DIR:zmdaq>/icons)
+
+set(CPACK_PACKAGE_NAME "ZeroMassDAQ")
+
+install(
+    FILES
+    ${CMAKE_SOURCE_DIR}/build/zmdaq
+    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_EXECUTE
+    DESTINATION /usr/share/${CPACK_PACKAGE_NAME}
+    )
+
+install(
+    FILES
+    ${CMAKE_SOURCE_DIR}/build/icons
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ WORLD_WRITE
+    DESTINATION /usr/share/${CPACK_PACKAGE_NAME}
+    )
+
+install(
+    FILES
+    ${CMAKE_SOURCE_DIR}/zeromassdaq.desktop
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    DESTINATION /usr/share/applications
+    )
