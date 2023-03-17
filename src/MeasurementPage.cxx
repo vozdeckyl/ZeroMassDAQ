@@ -43,11 +43,11 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     int index{0};
     for (auto& label : m_channelLabels)
     {
-	label.set_text("Channel " + std::to_string(index));
-	label.set_halign(Gtk::Align::ALIGN_END);
+        label.set_text("Channel " + std::to_string(index));
+        label.set_halign(Gtk::Align::ALIGN_END);
         m_readingsGrid.attach(label,0,index++);
-	label.set_margin_left(channelLabelMargins);
-	label.set_margin_right(channelLabelMargins);
+        label.set_margin_left(channelLabelMargins);
+        label.set_margin_right(channelLabelMargins);
         //label.set_margin_top(channelLabelMargins);
         //label.set_margin_bottom(channelLabelMargins);
     }
@@ -55,16 +55,16 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     index = 0;
     for (auto& reading : m_readings)
     {
-	reading.set_markup("<span font=\"12\"><b>N/A</b></span>");
-	reading.set_halign(Gtk::Align::ALIGN_START);
+        reading.set_markup("<span font=\"12\"><b>N/A</b></span>");
+        reading.set_halign(Gtk::Align::ALIGN_START);
         m_readingsGrid.attach(reading,1,index++);
-	reading.set_margin_left(channelLabelMargins);
+        reading.set_margin_left(channelLabelMargins);
         reading.set_margin_right(channelLabelMargins);
         //reading.set_margin_top(channelLabelMargins);
         //reading.set_margin_bottom(channelLabelMargins);
     }
-
-
+    
+    
     m_label.show();
     m_mainLayoutGrid.show();
     m_readingsGrid.show();
