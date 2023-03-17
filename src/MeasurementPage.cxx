@@ -44,6 +44,7 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     for (auto& label : m_channelLabels)
     {
 	label.set_text("Channel " + std::to_string(index));
+	label.set_halign(Gtk::Align::ALIGN_END);
         m_readingsGrid.attach(label,0,index++);
 	label.set_margin_left(channelLabelMargins);
 	label.set_margin_right(channelLabelMargins);
@@ -55,6 +56,7 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     for (auto& reading : m_readings)
     {
 	reading.set_markup("<span font=\"12\"><b>N/A</b></span>");
+	reading.set_halign(Gtk::Align::ALIGN_START);
         m_readingsGrid.attach(reading,1,index++);
 	reading.set_margin_left(channelLabelMargins);
         reading.set_margin_right(channelLabelMargins);
