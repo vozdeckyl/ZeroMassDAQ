@@ -30,6 +30,8 @@ private:
     Gtk::Button m_nextPageButton;
     Gtk::Button m_previousPageButton;
     Gtk::Label m_pageNumberLabel;
+    int m_currentPage;
+    int m_numberOfPages;
     
 
     sigc::connection m_conn;

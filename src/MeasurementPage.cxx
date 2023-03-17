@@ -8,7 +8,8 @@ MeasurementPage::MeasurementPage()
       m_readings(32),
       m_nextPageButton("⏵"),
       m_previousPageButton("⏴"),
-      m_pageNumberLabel("1/2")
+      m_numberOfPages(2),
+      m_currentPage(1)
 {
     m_label.set_markup("<span font=\"25\">Measurements</span>");
     m_label.set_margin_bottom(20);
@@ -29,6 +30,7 @@ MeasurementPage::MeasurementPage()
     m_pageSwitchingGrid.attach(m_pageNumberLabel,1,0);
     m_pageSwitchingGrid.attach(m_nextPageButton,2,0);
 
+    m_pageNumberLabel.set_text(std::to_string(m_currentPage) + "/" + std::to_string(m_numberOfPages));
     m_pageNumberLabel.set_margin_left(10);
     m_pageNumberLabel.set_margin_right(10);
     
@@ -156,4 +158,3 @@ void MeasurementPage::stopMeasurement()
     }
     m_conn.disconnect();
 }
-    
