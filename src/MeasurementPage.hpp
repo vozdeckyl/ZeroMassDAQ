@@ -16,6 +16,9 @@ private:
     bool updateReadings();
     void startMeasurement();
     void stopMeasurement();
+    void showPage(int pageNumber);
+    void nextPage();
+    void previousPage();
     
 private:
     Dial m_dial;

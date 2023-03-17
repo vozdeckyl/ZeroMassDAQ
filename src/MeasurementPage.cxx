@@ -93,6 +93,9 @@ MeasurementPage::MeasurementPage()
 
     // stop updating measurement when this page is hidden
     signal_hide().connect(sigc::mem_fun(*this, &MeasurementPage::stopMeasurement));
+
+    m_nextPageButton.signal_clicked().connect(sigc::mem_fun(*this, &MeasurementPage::nextPage));
+    m_previousPageButton.signal_clicked().connect(sigc::mem_fun(*this, &MeasurementPage::previousPage));
 }
 
 
@@ -137,13 +140,7 @@ void MeasurementPage::startMeasurement()
     bool result = m_inputDevice->connect(err);
     if (!result) std::cout << err << std::endl;
     
-    int channelsToShow = m_inputDevice->numberOfChannels();
-    channelsToShow = channelsToShow>16 ? 16 : channelsToShow;
-    for(int i=0;i<channelsToShow;i++)
-    {
-        m_readings[i].show();
-        m_channelLabels[i].show();
-    }
+    showPage(m_currentPage);
     
     updateReadings();
     m_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MeasurementPage::updateReadings),GlobalSettings::samplingInterval_ms);
@@ -157,4 +154,44 @@ void MeasurementPage::stopMeasurement()
         m_channelLabels[i].hide();
     }
     m_conn.disconnect();
+}
+
+void MeasurementPage::showPage(int pageNumber)
+{
+    int start = (pageNumber - 1)*16;
+    int stop = std::min(start + 16, m_inputDevice->numberOfChannels());
+
+    for(int i = 0; i<m_inputDevice->numberOfChannels(); i++)
+    {
+        if(i>=start && i<stop)
+        {
+            m_readings[i].show();
+            m_channelLabels[i].show();
+        }
+        else
+        {
+            m_readings[i].hide();
+            m_channelLabels[i].hide();
+        }
+    }
+
+    m_pageNumberLabel.set_text(std::to_string(m_currentPage) + "/" + std::to_string(m_numberOfPages));
+}
+
+void MeasurementPage::nextPage()
+{
+    if(m_currentPage>=m_numberOfPages)
+        return;
+    
+    m_currentPage++;
+    showPage(m_currentPage);
+}
+
+void MeasurementPage::previousPage()
+{
+    if(m_currentPage<=1)
+        return;
+    
+    m_currentPage--;
+    showPage(m_currentPage);
 }
