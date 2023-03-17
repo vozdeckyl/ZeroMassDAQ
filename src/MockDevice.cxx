@@ -13,7 +13,7 @@ int MockDevice::numberOfChannels()
 
 std::string MockDevice::deviceName()
 {
-    return "Device Mock";
+    return "Mock Device";
 }
 
 std::string MockDevice::interfaceDescription()
