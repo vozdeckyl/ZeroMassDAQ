@@ -139,6 +139,13 @@ void MeasurementPage::startMeasurement()
     std::string err;
     bool result = m_inputDevice->connect(err);
     if (!result) std::cout << err << std::endl;
+
+    m_numberOfPages = m_inputDevice->numberOfChannels() / 16;
+    if (m_inputDevice->numberOfChannels() % 16 != 0)
+    {
+        // remainder after the division -> need one extra page
+        m_numberOfPages++;
+    }
     
     showPage(m_currentPage);
     
