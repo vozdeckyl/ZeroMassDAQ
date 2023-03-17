@@ -11,8 +11,8 @@ MainWindow::MainWindow()
     set_icon_from_file("icons/radioactive.png");
 
     std::vector<std::pair<std::shared_ptr<Gtk::Widget>,std::shared_ptr<Gtk::Widget>>>  slides = {
-        {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/measurement.png")), std::shared_ptr<MeasurementPage>(new MeasurementPage(32))},
-        {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/settings.png")), std::shared_ptr<SettingsPage>(new SettingsPage())},
+        {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/measurement.png")), std::shared_ptr<MeasurementPage>(new MeasurementPage)},
+        {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/settings.png")), std::shared_ptr<SettingsPage>(new SettingsPage)},
         {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/inputDevice.png")), std::shared_ptr<DevicesPage>(new DevicesPage)},
         {std::shared_ptr<Gtk::Image>(new Gtk::Image("icons/exit.png")), std::shared_ptr<ExitPage>(new ExitPage(this))}
     };
