@@ -17,16 +17,16 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     m_mainLayoutGrid.attach(m_readingsWindow,0,1);
     m_mainLayoutGrid.attach(m_dialGrid,1,1);
 
-	m_dialGrid.insert_column(0);
-	m_dialGrid.insert_row(0);
-	m_dialGrid.insert_row(0);
+    m_dialGrid.insert_column(0);
+    m_dialGrid.insert_row(0);
+    m_dialGrid.insert_row(0);
 
-	m_dialGrid.attach(m_dial,0,1);
+    m_dialGrid.attach(m_dial,0,1);
 
-	m_readingsWindow.add(m_readingsGrid);
-	m_readingsWindow.set_size_request(-1,400);
-	m_readingsWindow.set_policy(Gtk::PolicyType::POLICY_NEVER, Gtk::PolicyType::POLICY_ALWAYS);
-	m_readingsWindow.set_margin_right(20);
+    m_readingsWindow.add(m_readingsGrid);
+    m_readingsWindow.set_size_request(-1,400);
+    m_readingsWindow.set_policy(Gtk::PolicyType::POLICY_NEVER, Gtk::PolicyType::POLICY_ALWAYS);
+    m_readingsWindow.set_margin_right(20);
     
     add(m_mainLayoutGrid);
     
@@ -68,9 +68,9 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     m_label.show();
     m_mainLayoutGrid.show();
     m_readingsGrid.show();
-	m_dialGrid.show();
+    m_dialGrid.show();
     m_dial.show();
-	m_readingsWindow.show();
+    m_readingsWindow.show();
 
     // start taking readings when measurements page is visible
     signal_show().connect(sigc::mem_fun(*this, &MeasurementPage::startMeasurement));
@@ -82,37 +82,35 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
 
 bool MeasurementPage::updateReadings()
 {
-	int numberOfChannels = m_inputDevice->numberOfChannels();
-	double readings[numberOfChannels];
+    int numberOfChannels = m_inputDevice->numberOfChannels();
+    double readings[numberOfChannels];
 
-	m_inputDevice->readAllChannels();
-	
-	for (int i = 0; i < numberOfChannels; i++)
-	{
-		readings[i] = m_inputDevice->getChannelReading(i);
-	}
+    m_inputDevice->readAllChannels();
 
-	
+    for (int i = 0; i < numberOfChannels; i++)
+    {
+        readings[i] = m_inputDevice->getChannelReading(i);
+    }
+
     for (int i = 0; i < numberOfChannels; i++)
     {
         m_readings[i].set_markup("<span font=\"12\"><b>"+std::to_string(static_cast<int>(readings[i]))+"</b></span>");
     }
-	
-	if(GlobalSettings::dialChannel == -1)
-	{
-		double sum{0.0};
-		for (int i = 0; i < numberOfChannels; i++)
-		{
-			sum += readings[i];
-		}
-		m_dial.setReading(sum);
-	}
-	else
-	{
-		m_dial.setReading(readings[GlobalSettings::dialChannel]);
-	}
-	
-	
+
+    if(GlobalSettings::dialChannel == -1)
+    {
+        double sum{0.0};
+        for (int i = 0; i < numberOfChannels; i++)
+        {
+            sum += readings[i];
+        }
+        m_dial.setReading(sum);
+    }
+    else
+    {
+        m_dial.setReading(readings[GlobalSettings::dialChannel]);
+    }
+
     return true;
 }
 
