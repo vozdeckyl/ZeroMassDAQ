@@ -2,38 +2,49 @@
 #include "MeasurementPage.hpp"
 #include "GlobalSettings.hpp"
 
-MeasurementPage::MeasurementPage(int noOfChannels) :
-    m_channelLabels(noOfChannels),
-    m_readings(noOfChannels),
-    m_inputDevice(GlobalSettings::inputDevice)
+MeasurementPage::MeasurementPage()
+    : m_inputDevice(GlobalSettings::inputDevice),
+      m_channelLabels(32),
+      m_readings(32),
+      m_nextPageButton("⏵"),
+      m_previousPageButton("⏴"),
+      m_pageNumberLabel("1/2")
 {
-    //m_inputDevice = GlobalSettings::inputDevice;
     m_label.set_markup("<span font=\"25\">Measurements</span>");
     m_label.set_margin_bottom(20);
     m_mainLayoutGrid.insert_column(0);
     m_mainLayoutGrid.insert_row(0);
-
+    m_mainLayoutGrid.insert_row(0);
+    
     m_mainLayoutGrid.attach(m_label,0,0);
-    m_mainLayoutGrid.attach(m_readingsWindow,0,1);
+    m_mainLayoutGrid.attach(m_readingsGrid,0,1);
+    m_mainLayoutGrid.attach(m_pageSwitchingGrid,0,2);
     m_mainLayoutGrid.attach(m_dialGrid,1,1);
+    
+    m_pageSwitchingGrid.insert_column(0);
+    m_pageSwitchingGrid.insert_column(0);
+    m_pageSwitchingGrid.insert_column(0);
+    
+    m_pageSwitchingGrid.attach(m_previousPageButton,0,0);
+    m_pageSwitchingGrid.attach(m_pageNumberLabel,1,0);
+    m_pageSwitchingGrid.attach(m_nextPageButton,2,0);
 
+    m_pageNumberLabel.set_margin_left(10);
+    m_pageNumberLabel.set_margin_right(10);
+    
     m_dialGrid.insert_column(0);
     m_dialGrid.insert_row(0);
     m_dialGrid.insert_row(0);
 
     m_dialGrid.attach(m_dial,0,1);
-
-    m_readingsWindow.add(m_readingsGrid);
-    m_readingsWindow.set_size_request(-1,400);
-    m_readingsWindow.set_policy(Gtk::PolicyType::POLICY_NEVER, Gtk::PolicyType::POLICY_ALWAYS);
-    m_readingsWindow.set_margin_right(20);
     
     add(m_mainLayoutGrid);
     
     m_readingsGrid.insert_column(0);
     m_readingsGrid.insert_column(0);
 
-    for(int i = 0; i < noOfChannels; i++)
+    
+    for(int i = 0; i < 32; i++)
     {
         m_readingsGrid.insert_row(0);
     }
@@ -70,7 +81,10 @@ MeasurementPage::MeasurementPage(int noOfChannels) :
     m_readingsGrid.show();
     m_dialGrid.show();
     m_dial.show();
-    m_readingsWindow.show();
+    m_pageSwitchingGrid.show();
+    m_nextPageButton.show();
+    m_previousPageButton.show();
+    m_pageNumberLabel.show();
 
     // start taking readings when measurements page is visible
     signal_show().connect(sigc::mem_fun(*this, &MeasurementPage::startMeasurement));
@@ -121,7 +135,9 @@ void MeasurementPage::startMeasurement()
     bool result = m_inputDevice->connect(err);
     if (!result) std::cout << err << std::endl;
     
-    for(int i=0;i<m_inputDevice->numberOfChannels();i++)
+    int channelsToShow = m_inputDevice->numberOfChannels();
+    channelsToShow = channelsToShow>16 ? 16 : channelsToShow;
+    for(int i=0;i<channelsToShow;i++)
     {
         m_readings[i].show();
         m_channelLabels[i].show();
@@ -140,3 +156,4 @@ void MeasurementPage::stopMeasurement()
     }
     m_conn.disconnect();
 }
+    
