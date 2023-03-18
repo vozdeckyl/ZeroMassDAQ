@@ -50,3 +50,9 @@ install(
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
     DESTINATION /usr/share/applications
     )
+
+install(CODE "MESSAGE(\"
+  Zero Mass DAQ has been installed.
+  It can be uninstalled by running the following script:
+    sudo /usr/share/ZeroMassDAQ/uninstall.sh \")"
+  )
