@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=0.1
+Name=Zero Mass DAQ
+GenericName=DAQ System
+Comment=Zero Mass DAQ is a GUI for the Zero Mass DAQ system
+Exec=/usr/share/ZeroMassDAQ/zmdaq
+Path=/usr/share/ZeroMassDAQ/
+Icon=/usr/share/ZeroMassDAQ/icons/radioactive.png
+Type=Application
+Terminal=false
+Categories=Utility;Science;Physics
+StartupWMClass=ZeroMassDAQ
+Keywords=detector;radioactivity;zero mass;daq;
