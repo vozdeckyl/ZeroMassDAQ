@@ -6,8 +6,8 @@ MeasurementPage::MeasurementPage()
     : m_inputDevice(GlobalSettings::inputDevice),
       m_channelLabels(32),
       m_readings(32),
-      m_nextPageButton("⏵"),
-      m_previousPageButton("⏴"),
+      m_nextPageImage("icons/next_page.png"),
+      m_previousPageImage("icons/previous_page.png"),
       m_numberOfPages(2),
       m_currentPage(1)
 {
@@ -29,6 +29,9 @@ MeasurementPage::MeasurementPage()
     m_pageSwitchingGrid.attach(m_previousPageButton,0,0);
     m_pageSwitchingGrid.attach(m_pageNumberLabel,1,0);
     m_pageSwitchingGrid.attach(m_nextPageButton,2,0);
+
+    m_nextPageButton.add(m_nextPageImage);
+    m_previousPageButton.add(m_previousPageImage);
 
     m_pageNumberLabel.set_text(std::to_string(m_currentPage) + "/" + std::to_string(m_numberOfPages));
     m_pageNumberLabel.set_margin_left(10);
@@ -87,6 +90,8 @@ MeasurementPage::MeasurementPage()
     m_nextPageButton.show();
     m_previousPageButton.show();
     m_pageNumberLabel.show();
+    m_nextPageImage.show();
+    m_previousPageImage.show();
 
     // start taking readings when measurements page is visible
     signal_show().connect(sigc::mem_fun(*this, &MeasurementPage::startMeasurement));

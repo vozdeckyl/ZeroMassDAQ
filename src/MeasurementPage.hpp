@@ -31,7 +31,9 @@ private:
 
     Gtk::Grid m_pageSwitchingGrid;
     Gtk::Button m_nextPageButton;
+    Gtk::Image m_nextPageImage;
     Gtk::Button m_previousPageButton;
+    Gtk::Image m_previousPageImage;
     Gtk::Label m_pageNumberLabel;
     int m_currentPage;
     int m_numberOfPages;
