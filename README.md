@@ -1,4 +1,4 @@
-# Zero Mass Detecotr DAQ
+# Zero Mass Detector DAQ
 
 
 ## Installation
@@ -24,12 +24,12 @@ The software can be either run directly from the folder
 ./zmdaq
 ```
 
-or it can be installed as a desktop application using the following command with root privlidges
+or it can be installed as a desktop application using the following command with root privileges
 ```bash
 sudo make install
 ```
 
-The application can be removed by running the following script with root privlidges
+The application can be removed by running the following script with root privileges
 
 ```bash
 sudo /usr/share/ZeroMassDAQ/uninstall.sh
