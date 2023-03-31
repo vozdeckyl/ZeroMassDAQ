@@ -18,6 +18,12 @@ cmake ../
 make
 ```
 
+By default, the application is in the fullscreen mode. To disable the fullscreen mode, set the `FULLSCREEN` variable to zero when running the cmake script
+
+```bash
+cmake ../ -DFULLSCREEN=0
+```
+
 The software can be either run directly from the folder 
 
 ```bash
