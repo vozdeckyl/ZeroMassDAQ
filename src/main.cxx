@@ -8,14 +8,10 @@
 #include "MockDevice.hpp"
 #include "GlobalSettings.hpp"
 
+#include "config.h"
 
 int main(int argc, char * argv[]) {
-
-    //GlobalSettings::inputDevice = std::shared_ptr<IInputDevice>(new MockDevice);
-
     auto app = Gtk::Application::create(argc, argv, "zeroMassDaq.gui");
-    
-    MainWindow w;
-    
+    MainWindow w(FULLSCREEN);
     return app->run(w);
 }
