@@ -5,7 +5,7 @@
 
 class MainWindow : public Gtk::Window {
 public:
-    MainWindow();
+    MainWindow(bool makeFullscreen);
     void quit();
 
 private:

@@ -4,8 +4,12 @@
 #include "DevicesPage.hpp"
 #include "ExitPage.hpp"
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(bool makeFullscreen = false)
 {
+    if (makeFullscreen)
+    {
+        fullscreen();
+    }
     set_title("Zero Mass DAQ");
     set_default_size(800,480);
     set_icon_from_file("icons/radioactive.png");
